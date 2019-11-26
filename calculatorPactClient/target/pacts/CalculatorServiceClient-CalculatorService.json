@@ -1,0 +1,64 @@
+{
+    "provider": {
+        "name": "CalculatorService"
+    },
+    "consumer": {
+        "name": "CalculatorServiceClient"
+    },
+    "interactions": [
+        {
+            "description": "Add Numbers",
+            "request": {
+                "method": "POST",
+                "path": "/calculate/add",
+                "body": {
+                    "a": 100,
+                    "b": 400
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "500": 100
+                },
+                "matchingRules": {
+                    "body": {
+                        "$.500": {
+                            "matchers": [
+                                {
+                                    "match": "integer"
+                                }
+                            ],
+                            "combine": "AND"
+                        }
+                    }
+                },
+                "generators": {
+                    "body": {
+                        "$.500": {
+                            "type": "RandomInt",
+                            "min": 0,
+                            "max": 2147483647
+                        }
+                    }
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "Add Numbers"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.5.10"
+        }
+    }
+}
